@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423645537921:android:7f349e7c8fc33a9ae4cf80",
+        "mobilesdk_app_id": "1:423645537921:android:31f2d678f168b00de4cf80",
         "android_client_info": {
-          "package_name": "com.example.android_sns_app"
+          "package_name": "com.kreimben.android_sns_app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "423645537921-fj4rmf3b8k0kdga117qbtqb9r30e24c6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kreimben.android_sns_app",
+            "certificate_hash": "7057f131fd9e8d1561784e1ee607677c36e12a06"
+          }
+        },
         {
           "client_id": "423645537921-aj0sok1mot8ttb0kd6h6co3dao067t3f.apps.googleusercontent.com",
           "client_type": 3

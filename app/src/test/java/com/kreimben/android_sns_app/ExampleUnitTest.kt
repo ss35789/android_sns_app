@@ -1,4 +1,4 @@
-package com.example.android_sns_app
+package com.kreimben.android_sns_app
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

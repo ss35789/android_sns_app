@@ -1,4 +1,4 @@
-package com.example.android_sns_app
+package com.kreimben.android_sns_app
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
