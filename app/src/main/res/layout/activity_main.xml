@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/display_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="main activity"
@@ -16,4 +16,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/firestore_test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Firestore Test"
+        app:layout_constraintBottom_toTopOf="@+id/firestore_show_all_data_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display_test" />
+
+    <Button
+        android:id="@+id/firestore_show_all_data_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="show all data"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firestore_test_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
