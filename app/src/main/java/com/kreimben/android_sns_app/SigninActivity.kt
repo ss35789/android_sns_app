@@ -9,6 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kreimben.android_sns_app.databinding.ActivitySigninBinding
 
+
 class SigninActivity : AppCompatActivity() {
     /*
     `SingInActivity`로 했을 때 duplicated 에러가 떠서
@@ -25,11 +26,16 @@ class SigninActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding.signinButton.setOnClickListener {
-            this.signIn(
-                binding.emailLoginEdittext.text.toString(),
-                binding.passwordLoginEdittext.text.toString()
-            )
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            // 자동 로그인 기능.
+            goMainActivity()
+        } else {
+            binding.signinButton.setOnClickListener {
+                this.signIn(
+                    binding.emailLoginEdittext.text.toString(),
+                    binding.passwordLoginEdittext.text.toString()
+                )
+            }
         }
     }
 
@@ -37,8 +43,7 @@ class SigninActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    goMainActivity()
                 } else {
                     Toast.makeText(
                         this,
@@ -49,4 +54,8 @@ class SigninActivity : AppCompatActivity() {
             }
     }
 
+    private fun goMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
 }
