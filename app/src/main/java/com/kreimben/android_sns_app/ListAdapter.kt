@@ -3,7 +3,9 @@ package com.kreimben.android_sns_app
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 
 class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<ListAdapter.ViewHolder>() {
@@ -17,11 +19,11 @@ class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<Lis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.content.text = itemList[position].content
-        holder.created_at.text = itemList[position].created_at.toString()
-        holder.title.text = itemList[position].title
-        holder.user.text = itemList[position].user
-
+        holder.content.text = " content : " + itemList[position].content
+        holder.created_at.text = " created_at : " + itemList[position].created_at.toString()
+        holder.title.text = " title : " + itemList[position].title
+        holder.user.text = " user : " + itemList[position].user
+        holder.imageView.setImageURI(itemList[position].image_url?.toUri())
 
     }
 
@@ -30,5 +32,6 @@ class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<Lis
         val created_at: TextView = itemView.findViewById(R.id.list_created_at)
         val title: TextView = itemView.findViewById(R.id.list_title)
         val user: TextView = itemView.findViewById(R.id.list_user)
+        val imageView: ImageView = itemView.findViewById(R.id.list_imageView)
     }
 }
