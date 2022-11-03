@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kreimben.android_sns_app.databinding.ActivityMainBinding
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
+
         }
         mysrl = binding.contentSrl
         mysrl.setOnRefreshListener(OnRefreshListener { // 새로고침시 동작
@@ -47,9 +49,16 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onRestart() {
+
+        super.onRestart()
+        GetPost()
+    }
     private fun GetPost(){
 
          db.collection("post")
+             .orderBy("created_at", Query.Direction.DESCENDING)
             .get()
              .addOnSuccessListener { result ->
                  // 성공할 경우
@@ -62,9 +71,10 @@ class MainActivity : AppCompatActivity() {
                          , document["title"] as String?
                          , document["user"] as String?
                      )
-                     println(item)
+
                      itemList.add(item)
                  }
+
                  adapter.notifyDataSetChanged()  // 리사이클러 뷰 갱신
              }
              .addOnFailureListener { exception ->
