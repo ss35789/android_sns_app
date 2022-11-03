@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     val adapter = ListAdapter(itemList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lateinit var mysrl: SwipeRefreshLayout;
         super.onCreate(savedInstanceState)
 
         // 테스트용 firestore 인스턴스를 생성했으니 필요없으면 지울것.
@@ -31,9 +34,16 @@ class MainActivity : AppCompatActivity() {
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
         }
-        binding.getButton.setOnClickListener {
+        mysrl = binding.contentSrl
+        mysrl.setOnRefreshListener(OnRefreshListener { // 새로고침시 동작
             GetPost()
-        }
+
+            // 종료
+            mysrl.setRefreshing(false)
+        })
+
+            GetPost()
+
 
 
     }
