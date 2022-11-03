@@ -5,12 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+
 
 class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_layout, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -19,11 +22,12 @@ class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<Lis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        var imageUrl :String? = itemList[position].image_url
         holder.content.text = " content : " + itemList[position].content
         holder.created_at.text = " created_at : " + itemList[position].created_at.toString()
         holder.title.text = " title : " + itemList[position].title
         holder.user.text = " user : " + itemList[position].user
-        holder.imageView.setImageURI(itemList[position].image_url?.toUri())
+        Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
 
     }
 

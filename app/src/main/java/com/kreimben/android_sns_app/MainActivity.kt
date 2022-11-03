@@ -48,10 +48,11 @@ class MainActivity : AppCompatActivity() {
                      val item = ListLayout(
                          document["content"] as String?
                          , document["created_at"] as com.google.firebase.Timestamp?
-                         , document["image_url"] as String?
+                         , document["image_uri"] as String?
                          , document["title"] as String?
                          , document["user"] as String?
                      )
+                     println(item)
                      itemList.add(item)
                  }
                  adapter.notifyDataSetChanged()  // 리사이클러 뷰 갱신
