@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kreimben.android_sns_app.databinding.ActivityMainBinding
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     val adapter = ListAdapter(itemList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lateinit var mysrl: SwipeRefreshLayout;
         super.onCreate(savedInstanceState)
 
         // 테스트용 firestore 인스턴스를 생성했으니 필요없으면 지울것.
@@ -30,16 +34,31 @@ class MainActivity : AppCompatActivity() {
 
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
+
         }
-        binding.getButton.setOnClickListener {
+        mysrl = binding.contentSrl
+        mysrl.setOnRefreshListener(OnRefreshListener { // 새로고침시 동작
             GetPost()
-        }
+
+            // 종료
+            mysrl.setRefreshing(false)
+        })
+
+            GetPost()
 
 
+
+    }
+
+    override fun onRestart() {
+
+        super.onRestart()
+        GetPost()
     }
     private fun GetPost(){
 
          db.collection("post")
+             .orderBy("created_at", Query.Direction.DESCENDING)
             .get()
              .addOnSuccessListener { result ->
                  // 성공할 경우
@@ -48,12 +67,14 @@ class MainActivity : AppCompatActivity() {
                      val item = ListLayout(
                          document["content"] as String?
                          , document["created_at"] as com.google.firebase.Timestamp?
-                         , document["image_url"] as String?
+                         , document["image_uri"] as String?
                          , document["title"] as String?
                          , document["user"] as String?
                      )
+
                      itemList.add(item)
                  }
+
                  adapter.notifyDataSetChanged()  // 리사이클러 뷰 갱신
              }
              .addOnFailureListener { exception ->
