@@ -34,7 +34,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
-
+        }
+        binding.friendsButton.setOnClickListener {
+            startActivity(Intent(this, FriendsActivity::class.java))
         }
         mysrl = binding.contentSrl
         mysrl.setOnRefreshListener(OnRefreshListener { // 새로고침시 동작

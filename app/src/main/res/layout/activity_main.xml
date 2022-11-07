@@ -42,5 +42,13 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <Button
+        android:id="@+id/friends_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="친구 목록보기"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
