@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: FirebaseFirestore
     val itemList = arrayListOf<ListLayout>()
-    val adapter = ListAdapter(itemList)
+    val adapter = PostListAdapter(itemList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         lateinit var mysrl: SwipeRefreshLayout;
