@@ -32,7 +32,7 @@ class PostListAdapter(val itemList: ArrayList<PostListLayout>): RecyclerView.Ada
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val content: TextView = itemView.findViewById(R.id.list_content)
+        val content: TextView = itemView.findViewById(R.id.list_name)
         val created_at: TextView = itemView.findViewById(R.id.list_created_at)
         val title: TextView = itemView.findViewById(R.id.list_title)
         val user: TextView = itemView.findViewById(R.id.list_user)
