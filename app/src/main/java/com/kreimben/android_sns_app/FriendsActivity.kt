@@ -38,6 +38,12 @@ class FriendsActivity: AppCompatActivity() {
         })
 
 
+
+        GetUserList()
+    }
+    override fun onRestart() {
+
+        super.onRestart()
         GetUserList()
     }
 
