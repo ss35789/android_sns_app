@@ -17,7 +17,7 @@ import com.kreimben.android_sns_app.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: FirebaseFirestore
-    val itemList = arrayListOf<ListLayout>()
+    val itemList = arrayListOf<PostListLayout>()
     val adapter = PostListAdapter(itemList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                  // 성공할 경우
                  itemList.clear()
                  for (document in result) {  // 가져온 문서들은 result에 들어감
-                     val item = ListLayout(
+                     val item = PostListLayout(
                          document["content"] as String?
                          , document["created_at"] as com.google.firebase.Timestamp?
                          , document["image_uri"] as String?

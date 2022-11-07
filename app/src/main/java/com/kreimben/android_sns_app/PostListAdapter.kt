@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-class PostListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
+class PostListAdapter(val itemList: ArrayList<PostListLayout>): RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.post_list_layout, parent, false)
