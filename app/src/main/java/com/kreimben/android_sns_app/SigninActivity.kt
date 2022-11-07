@@ -33,7 +33,7 @@ class SigninActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        if (FirebaseAuth.getInstance().currentUser!= null) {
             // 자동 로그인 기능.
             goMainActivity()
         } else {

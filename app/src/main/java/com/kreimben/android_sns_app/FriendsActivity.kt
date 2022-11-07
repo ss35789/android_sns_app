@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -49,13 +50,15 @@ class FriendsActivity: AppCompatActivity() {
                 // 성공할 경우
                 itemList.clear()
                 for (document in result) {  // 가져온 문서들은 result에 들어감
+
+
                     val item = FriendsListLayout(
                         document["email"] as String?
                         , document["name"] as String?
                         , document["uid"] as String?
 
                     )
-
+                    if(FirebaseAuth.getInstance().currentUser?.uid == item.uid)continue
                     itemList.add(item)
                 }
 
