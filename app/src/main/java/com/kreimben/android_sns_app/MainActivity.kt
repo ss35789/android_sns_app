@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
-        binding.Myprofile.text = FirebaseAuth.getInstance().currentUser?.email
+        binding.myProfileTextView.text = FirebaseAuth.getInstance().currentUser?.email
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
         }
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             getPost()
 
             // 종료
-            mysrl.setRefreshing(false)
+            mysrl.isRefreshing = false
         })
 
         getPost()
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 // 성공할 경우
                 itemList.clear()
                 for (document in result) {  // 가져온 문서들은 result에 들어감
-                    val item = ListLayout(
+                    val item = PostListLayout(
                         document["content"] as String?,
                         document["created_at"] as com.google.firebase.Timestamp?,
                         document["image_uri"] as String?,
