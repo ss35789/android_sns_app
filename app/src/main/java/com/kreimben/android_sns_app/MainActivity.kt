@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -17,8 +18,8 @@ import com.kreimben.android_sns_app.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: FirebaseFirestore
-    val itemList = arrayListOf<ListLayout>()
-    val adapter = ListAdapter(itemList)
+    val itemList = arrayListOf<PostListLayout>()
+    val adapter = PostListAdapter(itemList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         lateinit var mysrl: SwipeRefreshLayout;
@@ -31,10 +32,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
-
+        binding.Myprofile.text = FirebaseAuth.getInstance().currentUser?.email
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
-
+        }
+        binding.friendsButton.setOnClickListener {
+            startActivity(Intent(this, FriendsActivity::class.java))
         }
         mysrl = binding.contentSrl
         mysrl.setOnRefreshListener(OnRefreshListener { // 새로고침시 동작
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                  // 성공할 경우
                  itemList.clear()
                  for (document in result) {  // 가져온 문서들은 result에 들어감
-                     val item = ListLayout(
+                     val item = PostListLayout(
                          document["content"] as String?
                          , document["created_at"] as com.google.firebase.Timestamp?
                          , document["image_uri"] as String?

@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class PostListAdapter(val itemList: ArrayList<PostListLayout>): RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.post_list_layout, parent, false)
 
         return ViewHolder(view)
     }
@@ -32,7 +32,7 @@ class ListAdapter(val itemList: ArrayList<ListLayout>): RecyclerView.Adapter<Lis
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val content: TextView = itemView.findViewById(R.id.list_content)
+        val content: TextView = itemView.findViewById(R.id.list_name)
         val created_at: TextView = itemView.findViewById(R.id.list_created_at)
         val title: TextView = itemView.findViewById(R.id.list_title)
         val user: TextView = itemView.findViewById(R.id.list_user)
