@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         binding.rvList.adapter = adapter
         binding.myProfileTextView.text = FirebaseAuth.getInstance().currentUser?.email
         Glide.with(binding.ProfileImage.context).load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(binding.ProfileImage)
+
+
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
         }

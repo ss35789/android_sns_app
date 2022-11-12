@@ -56,13 +56,11 @@ class FriendsActivity: AppCompatActivity() {
                 // 성공할 경우
                 itemList.clear()
                 for (document in result) {  // 가져온 문서들은 result에 들어감
-
-
                     val item = UserListLayout(
                         document["displayname"] as String
                         , document["email"] as String
                         ,document["following"] as MutableList<String>?
-                        ,document["photo_url"] as String?
+                        ,document["photourl"] as String?
                         , document["uid"] as String
 
                     )

@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 
 class FriendListAdapter(val itemList: ArrayList<UserListLayout>): RecyclerView.Adapter<FriendListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,8 +27,8 @@ class FriendListAdapter(val itemList: ArrayList<UserListLayout>): RecyclerView.A
 
         holder.displayname.text = " name : " + itemList[position].displayname
         holder.email.text = " email : " + itemList[position].email
+        Glide.with(holder.userImg.context).load(itemList[position].photo_url.toString()).into(holder.userImg)
 
-        holder.follow_button.setBackgroundColor(Color.parseColor("#050fff"))
 
         FirestoreHelper().checkFollowing(itemList[position].uid, holder.follow_button)
         holder.follow_button.setOnClickListener {
@@ -39,5 +42,6 @@ class FriendListAdapter(val itemList: ArrayList<UserListLayout>): RecyclerView.A
         val displayname: TextView = itemView.findViewById(R.id.list_name)
         val email: TextView = itemView.findViewById(R.id.list_email)
         val follow_button: Button = itemView.findViewById(R.id.follow_button)
+        val userImg: ImageView = itemView.findViewById(R.id.User_list_img)
     }
 }
