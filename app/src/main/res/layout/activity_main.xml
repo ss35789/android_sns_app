@@ -11,6 +11,8 @@
         android:id="@+id/post_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="포스팅 하기"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,14 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileTextView"
         tools:ignore="MissingConstraints">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -43,24 +45,35 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <Button
+        android:id="@+id/edit_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="내 프로필"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/friends_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="16dp"
         android:text="유저들 목록"
         app:layout_constraintEnd_toStartOf="@+id/post_button"
+        app:layout_constraintStart_toEndOf="@+id/edit_profile_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Myprofile"
+        android:id="@+id/myProfileTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:text="프로필"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/friends_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

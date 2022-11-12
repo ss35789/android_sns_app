@@ -1,18 +1,15 @@
-package com.kreimben.android_sns_app
+package com.kreimben.wearable_sns
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.kreimben.android_sns_app.databinding.ActivityMainBinding
+import com.kreimben.wearable_sns.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,33 +25,20 @@ class MainActivity : AppCompatActivity() {
         // 테스트용 firestore 인스턴스를 생성했으니 필요없으면 지울것.
         this.db = Firebase.firestore
 
-        // 프로필 업데이트함
-        FirestoreHelper().updateProfile()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.rvList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
-        binding.myProfileTextView.text = FirebaseAuth.getInstance().currentUser?.email
-        binding.postButton.setOnClickListener {
-            startActivity(Intent(this, PostActivity::class.java))
-        }
-        binding.friendsButton.setOnClickListener {
-            startActivity(Intent(this, FriendsActivity::class.java))
-        }
-
-        binding.editProfileButton.setOnClickListener {
-            startActivity(Intent(this, EditProfileActivity::class.java))
-        }
 
         mysrl = binding.contentSrl
-        mysrl.setOnRefreshListener(OnRefreshListener { // 새로고침시 동작
+        mysrl.setOnRefreshListener { // 새로고침시 동작
             getPost()
 
             // 종료
             mysrl.isRefreshing = false
-        })
+        }
 
         getPost()
     }
