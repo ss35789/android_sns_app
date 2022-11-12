@@ -1,5 +1,6 @@
 package com.kreimben.android_sns_app
 
+import android.net.Uri
 import android.util.Log
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
@@ -9,9 +10,8 @@ import com.google.firebase.ktx.Firebase
 
 class FirestoreHelper {
     private var db: FirebaseFirestore = Firebase.firestore
-
     private val currentUser = FirebaseAuth.getInstance().currentUser
-
+    private val defaultProfileImg = "https://firebasestorage.googleapis.com/v0/b/android-sns-app.appspot.com/o/profile_images%2FN3jquxgS7rSLhI0M1KfgBieZVP73_Sat%20Nov%2012%2010%3A22%3A57%20GMT%202022?alt=media&token=248542a1-7855-417b-89f2-7ee739688c72"
     fun updateProfile() {
         if (currentUser != null) {
             val doc = db.collection("user").document(currentUser.uid)
@@ -43,13 +43,17 @@ class FirestoreHelper {
     }
 
     private fun createProfile() {
+        var currentUserImg = currentUser?.photoUrl
+        if(currentUserImg == null ){
+            currentUserImg= Uri.parse(defaultProfileImg)
+        }
         db.collection("user").document(currentUser!!.uid).set(
             hashMapOf(
                 "email" to currentUser.email,
                 "uid" to currentUser.uid,
                 "displayname" to currentUser.displayName,
                 "following" to null,
-                "photourl" to currentUser.photoUrl
+                "photourl" to currentUserImg
             )
         ).addOnCompleteListener {
             println("currentUser upload completed!")

@@ -57,7 +57,8 @@ class EditProfileActivity : AppCompatActivity() {
                     request.photoUri = Uri.parse(this.imageURL)
                 }
 
-                currentUser.updateProfile(
+
+                        currentUser.updateProfile(
                     request.build()
                 ).addOnSuccessListener {
                     Toast.makeText(this, "프로필 수정 성공!", Toast.LENGTH_SHORT).show()
