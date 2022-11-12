@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
         binding.myProfileTextView.text = FirebaseAuth.getInstance().currentUser?.email
+        //binding.ProfileImage.setImageURI(FirebaseAuth.getInstance().currentUser?.photoUrl)
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
         }
