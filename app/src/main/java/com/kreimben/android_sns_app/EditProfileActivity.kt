@@ -118,9 +118,9 @@ class EditProfileActivity : AppCompatActivity() {
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (currentUser != null) {
-            val email = currentUser.email
-            if (email != null) {
-                Firebase.firestore.collection("user").document(email).get()
+            val uid = currentUser.uid
+            if (uid != null) {
+                Firebase.firestore.collection("user").document(uid).get()
                     .addOnSuccessListener {
                         if (it != null) {
                             val nickname = it.data!!.get("displayname").toString()
