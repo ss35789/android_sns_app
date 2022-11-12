@@ -1,5 +1,6 @@
 package com.kreimben.android_sns_app
 
+import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import android.widget.Button
@@ -76,10 +77,14 @@ class FirestoreHelper {
                 if((f as MutableList<String>).contains(followingUID)){
                     (f as MutableList<String>).remove(followingUID)
                     btn.setText("Follow")
+                    btn.setBackgroundColor(Color.parseColor("#2EFE9A"))
+                    btn.setTextColor(Color.parseColor("#000000"))
                 }
                 else{
                     (f as MutableList<String>).add(followingUID)
                     btn.setText("UnFollow")
+                    btn.setBackgroundColor(Color.parseColor("#050fff"))
+                    btn.setTextColor(Color.parseColor("#FFFFFF"))
                 }
 
                 Log.d(null, f.toString())
@@ -94,10 +99,6 @@ class FirestoreHelper {
         }
     }
 
-
-
-
-
     fun checkFollowing(followingUID: String, btn: Button) {
         val doc = db.collection("user").document(currentUser!!.uid)
 
@@ -110,9 +111,13 @@ class FirestoreHelper {
                 Log.d(null, f.toString())
                 if((f as MutableList<String>).contains(followingUID)){
                     btn.setText("UnFollow")
+                    btn.setBackgroundColor(Color.parseColor("#050fff"))
+                    btn.setTextColor(Color.parseColor("#FFFFFF"))
                 }
                 else{
                     btn.setText("Follow")
+                    btn.setBackgroundColor(Color.parseColor("#2EFE9A"))
+                    btn.setTextColor(Color.parseColor("#000000"))
                 }
 
                 Log.d(null, f.toString())
