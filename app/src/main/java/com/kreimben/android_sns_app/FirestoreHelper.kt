@@ -1,6 +1,7 @@
 package com.kreimben.android_sns_app
 
 import android.util.Log
+import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -57,7 +58,7 @@ class FirestoreHelper {
         }
     }
 
-    fun addFollower(followingUID: String) {
+    fun updateFollower(followingUID: String, btn: Button) {
         val doc = db.collection("user").document(currentUser!!.uid)
 
         doc.get().addOnCompleteListener {
@@ -68,7 +69,15 @@ class FirestoreHelper {
                 }
 
                 Log.d(null, f.toString())
-                (f as MutableList<String>).add(followingUID)
+                if((f as MutableList<String>).contains(followingUID)){
+                    (f as MutableList<String>).remove(followingUID)
+                    btn.setText("Follow")
+                }
+                else{
+                    (f as MutableList<String>).add(followingUID)
+                    btn.setText("UnFollow")
+                }
+
                 Log.d(null, f.toString())
 
                 doc.update(
@@ -81,27 +90,32 @@ class FirestoreHelper {
         }
     }
 
-    fun removeFollower(followingUID: String) {
+
+
+
+
+    fun checkFollowing(followingUID: String, btn: Button) {
         val doc = db.collection("user").document(currentUser!!.uid)
 
         doc.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 var f = it.result.data?.get("following")
-                if (f != null) {
-                    Log.d(null, f.toString())
-                    (f as MutableList<String>).remove(followingUID)
-                    Log.d(null, f.toString())
-
-                    doc.update(
-                        "following", f
-                    )
-                        .addOnFailureListener {
-                            Log.e(null, it.message.toString())
-                        }
-                } else {
-                    Log.e(null, "Nothing to remove! cuz your follower is nothing")
+                if (f == null) {
+                    f = mutableListOf<String>()
                 }
+                Log.d(null, f.toString())
+                if((f as MutableList<String>).contains(followingUID)){
+                    btn.setText("UnFollow")
+                }
+                else{
+                    btn.setText("Follow")
+                }
+
+                Log.d(null, f.toString())
+
             }
         }
     }
+
 }
+

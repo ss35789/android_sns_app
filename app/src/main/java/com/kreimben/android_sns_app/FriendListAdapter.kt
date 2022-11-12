@@ -21,26 +21,16 @@ class FriendListAdapter(val itemList: ArrayList<UserListLayout>): RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var buttonStatus = false
+
         holder.displayname.text = " name : " + itemList[position].displayname
         holder.email.text = " email : " + itemList[position].email
+
+        holder.follow_button.setBackgroundColor(Color.parseColor("#050fff"))
+
+        FirestoreHelper().checkFollowing(itemList[position].uid, holder.follow_button)
         holder.follow_button.setOnClickListener {
             //친구추가
-            //FirestoreHelper().updateFollwing(itemList[position].email)
-            if(buttonStatus){
-                //친구추가
-                FirestoreHelper().addFollower(itemList[position].uid)
-                buttonStatus= false
-                holder.follow_button.setBackgroundColor(Color.parseColor("#ff111f"))
-                holder.follow_button.setText("UnFollow")
-            }
-            else{
-                FirestoreHelper().removeFollower(itemList[position].uid)
-                buttonStatus= true
-                holder.follow_button.setBackgroundColor(Color.parseColor("#050fff"))
-                holder.follow_button.setText("Follow")
-            }
-
+            FirestoreHelper().updateFollower(itemList[position].uid, holder.follow_button)
         }
 
     }
