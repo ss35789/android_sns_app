@@ -59,9 +59,11 @@ class FriendsActivity: AppCompatActivity() {
 
 
                     val item = UserListLayout(
-                        document["displayname"] as String?
-                        , document["email"] as String?
-                        , document["uid"] as String?
+                        document["displayname"] as String
+                        , document["email"] as String
+                        ,document["following"] as MutableList<String>?
+                        ,document["photo_url"] as String?
+                        , document["uid"] as String
 
                     )
                     if(FirebaseAuth.getInstance().currentUser?.uid == item.uid)continue
