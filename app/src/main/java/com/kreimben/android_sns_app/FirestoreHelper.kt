@@ -57,7 +57,7 @@ class FirestoreHelper {
         }
     }
 
-    public fun addFollower(followingUID: String) {
+    fun addFollower(followingUID: String) {
         val doc = db.collection("user").document(currentUser!!.uid)
 
         doc.get().addOnCompleteListener {
@@ -77,6 +77,30 @@ class FirestoreHelper {
                     .addOnFailureListener {
                         Log.e(null, it.message.toString())
                     }
+            }
+        }
+    }
+
+    fun removeFollower(followingUID: String) {
+        val doc = db.collection("user").document(currentUser!!.uid)
+
+        doc.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                var f = it.result.data?.get("following")
+                if (f != null) {
+                    Log.d(null, f.toString())
+                    (f as MutableList<String>).remove(followingUID)
+                    Log.d(null, f.toString())
+
+                    doc.update(
+                        "following", f
+                    )
+                        .addOnFailureListener {
+                            Log.e(null, it.message.toString())
+                        }
+                } else {
+                    Log.e(null, "Nothing to remove! cuz your follower is nothing")
+                }
             }
         }
     }
