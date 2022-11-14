@@ -17,7 +17,7 @@ class FriendsActivity: AppCompatActivity() {
     lateinit var mysrl: SwipeRefreshLayout;
     private lateinit var binding: ActivityFriendsBinding
     private lateinit var db: FirebaseFirestore
-    val itemList = arrayListOf<FriendsListLayout>()
+    val itemList = arrayListOf<UserListLayout>()
     val adapter = FriendListAdapter(itemList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,19 +49,19 @@ class FriendsActivity: AppCompatActivity() {
 
     private fun GetUserList(){
 
-        db.collection("User")
-            .orderBy("name", Query.Direction.DESCENDING)
+        db.collection("user")
+            .orderBy("displayname", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 // 성공할 경우
                 itemList.clear()
                 for (document in result) {  // 가져온 문서들은 result에 들어감
-
-
-                    val item = FriendsListLayout(
-                        document["email"] as String?
-                        , document["name"] as String?
-                        , document["uid"] as String?
+                    val item = UserListLayout(
+                        document["displayname"] as String
+                        , document["email"] as String
+                        ,document["following"] as MutableList<String>?
+                        ,document["photourl"] as String?
+                        , document["uid"] as String
 
                     )
                     if(FirebaseAuth.getInstance().currentUser?.uid == item.uid)continue

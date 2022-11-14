@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -21,7 +22,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private var imageURL: String? = null
 
-    //    private val db: FirebaseFirestore = Firebase.firestore
+    //private val db: FirebaseFirestore = Firebase.firestore
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -56,7 +57,8 @@ class EditProfileActivity : AppCompatActivity() {
                     request.photoUri = Uri.parse(this.imageURL)
                 }
 
-                currentUser.updateProfile(
+
+                        currentUser.updateProfile(
                     request.build()
                 ).addOnSuccessListener {
                     Toast.makeText(this, "프로필 수정 성공!", Toast.LENGTH_SHORT).show()

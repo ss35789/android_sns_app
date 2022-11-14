@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -38,6 +39,9 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
         binding.myProfileTextView.text = FirebaseAuth.getInstance().currentUser?.email
+        Glide.with(binding.ProfileImage.context).load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(binding.ProfileImage)
+
+
         binding.postButton.setOnClickListener {
             startActivity(Intent(this, PostActivity::class.java))
         }
