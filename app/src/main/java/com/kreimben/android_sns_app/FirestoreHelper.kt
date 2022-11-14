@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -12,7 +13,9 @@ import com.google.firebase.ktx.Firebase
 class FirestoreHelper {
     private var db: FirebaseFirestore = Firebase.firestore
     private val currentUser = FirebaseAuth.getInstance().currentUser
-    private val defaultProfileImg = "https://firebasestorage.googleapis.com/v0/b/android-sns-app.appspot.com/o/profile_images%2FN3jquxgS7rSLhI0M1KfgBieZVP73_Sat%20Nov%2012%2010%3A22%3A57%20GMT%202022?alt=media&token=248542a1-7855-417b-89f2-7ee739688c72"
+    private val defaultProfileImg =
+        "https://firebasestorage.googleapis.com/v0/b/android-sns-app.appspot.com/o/profile_images%2FN3jquxgS7rSLhI0M1KfgBieZVP73_Sat%20Nov%2012%2010%3A22%3A57%20GMT%202022?alt=media&token=248542a1-7855-417b-89f2-7ee739688c72"
+
     fun updateProfile() {
         if (currentUser != null) {
             val doc = db.collection("user").document(currentUser.uid)
@@ -45,8 +48,8 @@ class FirestoreHelper {
 
     private fun createProfile() {
         var currentUserImg = currentUser?.photoUrl
-        if(currentUserImg == null ){
-            currentUserImg= Uri.parse(defaultProfileImg)
+        if (currentUserImg == null) {
+            currentUserImg = Uri.parse(defaultProfileImg)
         }
         db.collection("user").document(currentUser!!.uid).set(
             hashMapOf(
@@ -74,15 +77,14 @@ class FirestoreHelper {
                 }
 
                 Log.d(null, f.toString())
-                if((f as MutableList<String>).contains(followingUID)){
-                    (f as MutableList<String>).remove(followingUID)
-                    btn.setText("Follow")
+                if ((f as MutableList<String>).contains(followingUID)) {
+                    f.remove(followingUID)
+                    btn.text = "Follow"
                     btn.setBackgroundColor(Color.parseColor("#2EFE9A"))
                     btn.setTextColor(Color.parseColor("#000000"))
-                }
-                else{
-                    (f as MutableList<String>).add(followingUID)
-                    btn.setText("UnFollow")
+                } else {
+                    f.add(followingUID)
+                    btn.text = "UnFollow"
                     btn.setBackgroundColor(Color.parseColor("#050fff"))
                     btn.setTextColor(Color.parseColor("#FFFFFF"))
                 }
@@ -109,13 +111,12 @@ class FirestoreHelper {
                     f = mutableListOf<String>()
                 }
                 Log.d(null, f.toString())
-                if((f as MutableList<String>).contains(followingUID)){
-                    btn.setText("UnFollow")
+                if ((f as MutableList<String>).contains(followingUID)) {
+                    btn.text = "UnFollow"
                     btn.setBackgroundColor(Color.parseColor("#050fff"))
                     btn.setTextColor(Color.parseColor("#FFFFFF"))
-                }
-                else{
-                    btn.setText("Follow")
+                } else {
+                    btn.text = "Follow"
                     btn.setBackgroundColor(Color.parseColor("#2EFE9A"))
                     btn.setTextColor(Color.parseColor("#000000"))
                 }
@@ -126,6 +127,33 @@ class FirestoreHelper {
         }
     }
 
+    fun getDisplayName(uid: String, textView: TextView) {
+        val doc = db.collection("user").document(currentUser!!.uid)
+
+        doc.get()
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.result.exists()) {
+                    textView.text = it.result.data!!.get("displayname").toString()
+                }
+            }
+            .addOnFailureListener {
+                Log.e(null, "Fail to fetch displayname: ${it.message}")
+            }
+    }
+
+    fun getEmail(uid: String, textView: TextView) {
+        val doc = db.collection("user").document(currentUser!!.uid)
+
+        doc.get()
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.result.exists()) {
+                    textView.text = it.result.data!!.get("email").toString()
+                }
+            }
+            .addOnFailureListener {
+                Log.e(null, "Fail to fetch email: ${it.message}")
+            }
+    }
 
 
 }

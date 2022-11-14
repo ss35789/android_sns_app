@@ -22,11 +22,13 @@ class PostListAdapter(val itemList: ArrayList<PostListLayout>): RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var imageUrl :String? = itemList[position].image_url
+        val uid = itemList[position].uid
+        FirestoreHelper().getDisplayName(uid.toString(), holder.user)
+
+        val imageUrl: String? = itemList[position].image_url
         holder.content.text = " content : " + itemList[position].content
         holder.created_at.text = " created_at : " + itemList[position].created_at.toString()
         holder.title.text = " title : " + itemList[position].title
-        holder.user.text = " user : " + itemList[position].user
         Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
 
     }
