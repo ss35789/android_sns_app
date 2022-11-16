@@ -14,7 +14,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kreimben.android_sns_app.databinding.ActivityMainBinding
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -97,9 +96,12 @@ class MainActivity : AppCompatActivity() {
                             document["title"] as String?,
                             document["user"] as String?
                         )
-                        if(item.user.toString() == FirebaseAuth.getInstance().currentUser!!.uid)itemList.add(item)
-                        if(following !== null &&
-                            !following!!.contains(item.user.toString()))continue;
+                        if (item.uid.toString() == FirebaseAuth.getInstance().currentUser!!.uid) itemList.add(
+                            item
+                        )
+                        if (following !== null &&
+                            !following!!.contains(item.uid.toString())
+                        ) continue
                         itemList.add(item)
                     }
 
