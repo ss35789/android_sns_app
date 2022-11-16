@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                             document["title"] as String?,
                             document["user"] as String?
                         )
+                        if(item.user.toString() == FirebaseAuth.getInstance().currentUser!!.uid)itemList.add(item)
                         if(following !== null &&
                             !following!!.contains(item.user.toString()))continue;
                         itemList.add(item)
