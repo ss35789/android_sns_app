@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
+        Glide.with(binding.ProfileImage.context).load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(binding.ProfileImage)
         getPost()
     }
 
