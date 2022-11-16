@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     val itemList = arrayListOf<PostListLayout>()
     val adapter = PostListAdapter(itemList)
     lateinit var mysrl: SwipeRefreshLayout
+    private var following : MutableList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +65,11 @@ class MainActivity : AppCompatActivity() {
         getPost()
     }
 
+    override fun onResume() {
+        super.onResume()
+        Glide.with(binding.ProfileImage.context).load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(binding.ProfileImage)
+        getPost()
+    }
 
     override fun onRestart() {
         super.onRestart()
@@ -72,21 +78,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getPost() {
+
+        db.collection("user").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {doc ->
+            val followingList = doc["following"] as MutableList<String>?
+            this.following =followingList
+
+        }
         db.collection("post").orderBy("created_at", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { result ->
                 // 성공할 경우
-                itemList.clear()
-                for (document in result) {  // 가져온 문서들은 result에 들어감
-                    val item = PostListLayout(
-                        document["content"] as String?,
-                        document["created_at"] as com.google.firebase.Timestamp?,
-                        document["image_uri"] as String?,
-                        document["title"] as String?,
-                        document["user"] as String?
-                    )
 
-                    itemList.add(item)
-                }
+                    itemList.clear()
+                    for (document in result) {  // 가져온 문서들은 result에 들어감
+                        val item = PostListLayout(
+                            document["content"] as String?,
+                            document["created_at"] as com.google.firebase.Timestamp?,
+                            document["image_uri"] as String?,
+                            document["title"] as String?,
+                            document["user"] as String?
+                        )
+                        if(following !== null &&
+                            !following!!.contains(item.user.toString()))continue;
+                        itemList.add(item)
+                    }
+
+
+
+
             }.addOnFailureListener { exception ->
                 // 실패할 경우
                 Log.w("MainActivity", "Error getting documents: $exception")
