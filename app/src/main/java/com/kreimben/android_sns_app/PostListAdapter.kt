@@ -26,10 +26,13 @@ class PostListAdapter(val itemList: ArrayList<PostListLayout>): RecyclerView.Ada
         FirestoreHelper().getDisplayName(uid.toString(), holder.user)
 
         val imageUrl: String? = itemList[position].image_url
-        holder.content.text = " content : " + itemList[position].content
-        holder.created_at.text = " created_at : " + itemList[position].created_at.toString()
-        holder.title.text = " title : " + itemList[position].title
+        holder.content.text = itemList[position].content
+        holder.created_at.text =  itemList[position].created_at.toString()
+        holder.title.text = itemList[position].title
+        
         Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
+
+
 
     }
 
