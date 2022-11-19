@@ -128,7 +128,7 @@ class FirestoreHelper {
     }
 
     fun getDisplayName(uid: String, textView: TextView) {
-        val doc = db.collection("user").document(currentUser!!.uid)
+        val doc = db.collection("user").document(uid)
 
         doc.get()
             .addOnCompleteListener {
