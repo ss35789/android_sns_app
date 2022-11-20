@@ -26,10 +26,14 @@ class PostListAdapter(val itemList: ArrayList<PostListLayout>): RecyclerView.Ada
         FirestoreHelper().getDisplayName(uid.toString(), holder.user)
 
         val imageUrl: String? = itemList[position].image_url
-        holder.content.text = " content : " + itemList[position].content
-        holder.created_at.text = " created_at : " + itemList[position].created_at.toString()
-        holder.title.text = " title : " + itemList[position].title
+        holder.content.text = itemList[position].content
+        holder.created_at.text =  itemList[position].created_at.toString()
+        holder.title.text = itemList[position].title
+
         Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
+        //if(imageUrl == null )holder.imageView.setVisibility(View.GONE)
+        // 드래그 새로고침 하면 어떤건 이미지 나오고 어떤건 안나오고 반복 버그 생김
+
 
     }
 

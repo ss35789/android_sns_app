@@ -14,6 +14,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kreimben.android_sns_app.databinding.ActivityMainBinding
+import java.lang.Thread.sleep
 
 
 class MainActivity : AppCompatActivity() {
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                         if (following !== null &&
                             !following!!.contains(item.uid.toString())
                         ) continue
+
                         itemList.add(item)
                     }
 
