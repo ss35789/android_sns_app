@@ -1,6 +1,7 @@
 package com.kreimben.android_sns_app
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
@@ -11,6 +12,9 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class PostListAdapter(
@@ -35,7 +39,7 @@ class PostListAdapter(
 
         val imageUrl: String? = itemList[position].image_url
         holder.content.text = itemList[position].content
-        holder.created_at.text = itemList[position].created_at.toString()
+        holder.created_at.text = getDateTime(itemList[position].created_at!!)
         holder.title.text = itemList[position].title
 
         Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
@@ -74,6 +78,16 @@ class PostListAdapter(
 
     lateinit var refresh: () -> Unit
     lateinit var makeText: (message: String) -> Unit
+
+    private fun getDateTime(s: Timestamp): String {
+        val milliseconds = s.seconds * 1000 + s.nanoseconds / 1000000
+        val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm")
+        val netDate = Date(milliseconds)
+        val date = sdf.format(netDate).toString()
+        Log.d("TAG170", date)
+
+        return date
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val content: TextView = itemView.findViewById(R.id.list_name)
