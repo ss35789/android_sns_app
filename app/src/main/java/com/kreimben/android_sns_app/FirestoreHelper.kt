@@ -29,10 +29,12 @@ class FirestoreHelper {
                                 Log.e(null, it.message.toString())
                             }
 
-                        doc.update("displayname", currentUser.displayName)
-                            .addOnFailureListener {
-                                Log.e(null, it.message.toString())
-                            }
+                        if (currentUser.displayName != "") {
+                            doc.update("displayname", currentUser.displayName)
+                                .addOnFailureListener {
+                                    Log.e(null, it.message.toString())
+                                }
+                        }
 
                         doc.update("photourl", currentUser.photoUrl)
                             .addOnFailureListener {
@@ -55,8 +57,8 @@ class FirestoreHelper {
             hashMapOf(
                 "email" to currentUser.email,
                 "uid" to currentUser.uid,
-                "displayname" to currentUser.displayName,
-                "following" to null,
+                "displayname" to "Unknown ${Date().time}",
+                "following" to mutableListOf<String>(),
                 "photourl" to currentUserImg
             )
         ).addOnCompleteListener {
