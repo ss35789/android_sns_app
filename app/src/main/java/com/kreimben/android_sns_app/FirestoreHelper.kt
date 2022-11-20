@@ -5,10 +5,12 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class FirestoreHelper {
     private var db: FirebaseFirestore = Firebase.firestore
@@ -180,6 +182,74 @@ class FirestoreHelper {
                                 complete(false)
                             }
                     }
+                }
+            }
+    }
+
+    fun deleteAccount(
+        email: String,
+        password: String,
+        complete: (is_success: Boolean, message: String?) -> Unit
+    ) {
+        // Remove All of Posts I posted
+        db.collection("post").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful && !it.result.isEmpty) {
+                    val listOfPosts = mutableListOf<String>()
+
+                    for (post in it.result.documents) {
+                        if (post.data!!.get("user") == currentUser!!.uid) {
+                            listOfPosts.add(post.id)
+                        }
+                    }
+
+                    if (listOfPosts.isNotEmpty()) {
+                        for (doc_id in listOfPosts) {
+                            db.collection("post").document(doc_id).delete()
+                                .addOnFailureListener {
+                                    println("Fail to delete post: ${it.message}")
+                                    complete(false, null)
+                                }
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener {
+                println("Fail to get POSTs: ${it.message}")
+                complete(false, null)
+            }
+
+        // Delete user data on "user" document.
+        db.collection("user").document(currentUser!!.uid).delete()
+            .addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    println("Fail to delete user profile document isSuccessful")
+                    complete(false, null)
+                }
+            }
+            .addOnFailureListener {
+                println("Fail to delete user profile document: ${it.message}")
+                complete(false, null)
+            }
+
+
+        // Delete Account
+        currentUser.reauthenticate(
+            EmailAuthProvider.getCredential(email, password)
+        )
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    currentUser.delete()
+                        .addOnCompleteListener {
+                            println("delete user result: ${it.isSuccessful} ${it.isComplete}")
+                            complete(it.isSuccessful, null)
+                        }
+                        .addOnFailureListener {
+                            println("Fail to delete user")
+                            complete(false, it.message)
+                        }
+                } else {
+                    complete(false, "이메일과 비밀번호를 다시 한번 확인 해주세요.")
                 }
             }
     }
