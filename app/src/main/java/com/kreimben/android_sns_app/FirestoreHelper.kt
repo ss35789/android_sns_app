@@ -155,6 +155,31 @@ class FirestoreHelper {
             }
     }
 
+    fun removePost(documentId: String, complete: (is_success: Boolean) -> Unit) {
+        val doc = db.collection("post").document(documentId)
 
+        doc.get()
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.result.exists()) {
+                    // 먼저 내가 쓴 글인지 확인 함.
+                    if (it.result.data!!.get("user") != currentUser!!.uid) {
+                        // 내가 쓴 글이 아니면 콜백에 false를 넣어 줌.
+                        complete(false)
+                    } else {
+                        // 내가 쓴 글이 맞다면 지우고 콜백에 최종 상태 보내 줌.
+                        doc.delete()
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    complete(true)
+                                }
+                            }
+                            .addOnFailureListener {
+                                Log.e(null, "Fail to delete document: ${documentId}")
+                                complete(false)
+                            }
+                    }
+                }
+            }
+    }
 }
 
