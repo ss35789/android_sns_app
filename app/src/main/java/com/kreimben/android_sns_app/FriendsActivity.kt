@@ -13,8 +13,8 @@ import com.google.firebase.ktx.Firebase
 import com.kreimben.android_sns_app.databinding.ActivityFriendsBinding
 
 
-class FriendsActivity: AppCompatActivity() {
-    lateinit var mysrl: SwipeRefreshLayout;
+class FriendsActivity : AppCompatActivity() {
+    lateinit var mysrl: SwipeRefreshLayout
     private lateinit var binding: ActivityFriendsBinding
     private lateinit var db: FirebaseFirestore
     val itemList = arrayListOf<UserListLayout>()
@@ -26,51 +26,46 @@ class FriendsActivity: AppCompatActivity() {
 
         binding = ActivityFriendsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.friendsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.friendsList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.friendsList.adapter = adapter
 
         mysrl = binding.contentSrl
         mysrl.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener { // 새로고침시 동작
-            GetUserList()
-
+            getUserList()
             // 종료
-            mysrl.setRefreshing(false)
+            mysrl.isRefreshing = false
         })
 
-
-
-        GetUserList()
+        getUserList()
     }
+
     override fun onRestart() {
-
         super.onRestart()
-        GetUserList()
+        getUserList()
     }
 
-    private fun GetUserList(){
-
+    private fun getUserList() {
         db.collection("user")
             .orderBy("displayname", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
-                // 성공할 경우
-                itemList.clear()
-                for (document in result) {  // 가져온 문서들은 result에 들어감
-
-
-                    val item = UserListLayout(
-                        document["displayname"] as String
-                        , document["email"] as String
-                        ,document["following"] as MutableList<String>?
-                        ,document["photo_url"] as String?
-                        , document["uid"] as String
-
-                    )
-                    if(FirebaseAuth.getInstance().currentUser?.uid == item.uid)continue
-                    itemList.add(item)
+                if (result != null) {
+                    // 성공할 경우
+                    itemList.clear()
+                    for (document in result) {  // 가져온 문서들은 result에 들어감
+                        val item = UserListLayout(
+                            document["displayname"] as String,
+                            document["email"] as String,
+                            document["following"] as MutableList<String>?,
+                            document["photourl"] as String?,
+                            document["uid"] as String
+                        )
+                        if (FirebaseAuth.getInstance().currentUser?.uid == item.uid) continue
+                        itemList.add(item)
+                    }
+                    adapter.notifyDataSetChanged()  // 리사이클러 뷰 갱신
                 }
-
-                adapter.notifyDataSetChanged()  // 리사이클러 뷰 갱신
             }
             .addOnFailureListener { exception ->
                 // 실패할 경우

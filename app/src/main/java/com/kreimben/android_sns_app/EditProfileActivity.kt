@@ -21,7 +21,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private var imageURL: String? = null
 
-    //    private val db: FirebaseFirestore = Firebase.firestore
+    //private val db: FirebaseFirestore = Firebase.firestore
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -76,6 +76,10 @@ class EditProfileActivity : AppCompatActivity() {
             // 다른 이미지를 업로드 하고 싶을 때 메모리 상에 있는 데이터를 지움.
             this.imageURL = null
             openGallery()
+        }
+
+        binding.deleteAccountButton.setOnClickListener {
+            startActivity(Intent(this, DeleteAccount::class.java))
         }
     }
 
