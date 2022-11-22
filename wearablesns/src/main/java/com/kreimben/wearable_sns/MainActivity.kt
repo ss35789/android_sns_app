@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     val adapter = PostListAdapter(itemList)
     lateinit var mysrl: SwipeRefreshLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // 테스트용 firestore 인스턴스를 생성했으니 필요없으면 지울것.

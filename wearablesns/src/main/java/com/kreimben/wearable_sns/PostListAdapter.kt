@@ -28,11 +28,13 @@ class PostListAdapter(val itemList: ArrayList<PostListLayout>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val uid = itemList[position].uid
+        FirestoreHelper().getDisplayName(uid.toString(), holder.user)
+
         val imageUrl: String? = itemList[position].image_url
         holder.content.text = itemList[position].content
         holder.created_at.text = getDateTime(itemList[position].created_at!!)
         holder.title.text = itemList[position].title
-        holder.user.text = itemList[position].user
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
         } else {
