@@ -43,7 +43,14 @@ class PostListAdapter(
         holder.title.text = itemList[position].title
 
         Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
-        //if(imageUrl == null )holder.imageView.setVisibility(View.GONE)
+        if(imageUrl == null ){
+            val params: ViewGroup.LayoutParams = holder.imageView.getLayoutParams() as ViewGroup.LayoutParams
+            params.width = 0
+            params.height = 0
+
+            holder.imageView.setLayoutParams(params)
+        }
+        //holder.imageView.height
         // 드래그 새로고침 하면 어떤건 이미지 나오고 어떤건 안나오고 반복 버그 생김
 
         // 추가 메뉴 설정

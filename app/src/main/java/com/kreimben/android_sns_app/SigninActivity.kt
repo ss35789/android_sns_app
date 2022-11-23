@@ -32,15 +32,17 @@ class SigninActivity : AppCompatActivity() {
         )
 
         auth = Firebase.auth
-
+        binding.btnGoSignup.setOnClickListener {
+            startActivity(Intent(this, SignupActivity::class.java))
+        }
         if (FirebaseAuth.getInstance().currentUser!= null) {
             // 자동 로그인 기능.
             goMainActivity()
         } else {
             binding.signinButton.setOnClickListener {
                 this.signIn(
-                    binding.emailLoginEdittext.text.toString(),
-                    binding.passwordLoginEdittext.text.toString()
+                    binding.emailSigninEdittext.text.toString(),
+                    binding.passwordSigninEdittext.text.toString()
                 )
             }
         }
