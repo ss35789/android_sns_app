@@ -42,15 +42,17 @@ class PostListAdapter(
         holder.created_at.text = getDateTime(itemList[position].created_at!!)
         holder.title.text = itemList[position].title
 
-        Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
-        if(imageUrl == null ){
-            val params: ViewGroup.LayoutParams = holder.imageView.getLayoutParams() as ViewGroup.LayoutParams
+        if (imageUrl.isNullOrEmpty() || imageUrl.isBlank()) {
+            val params: ViewGroup.LayoutParams =
+                holder.imageView.layoutParams as ViewGroup.LayoutParams
             params.width = 0
             params.height = 0
 
-            holder.imageView.setLayoutParams(params)
+            holder.imageView.layoutParams = params
+        } else {
+            Glide.with(holder.imageView.context).load(imageUrl).into(holder.imageView)
         }
-        //holder.imageView.height
+
         // 드래그 새로고침 하면 어떤건 이미지 나오고 어떤건 안나오고 반복 버그 생김
 
         // 추가 메뉴 설정
@@ -59,10 +61,10 @@ class PostListAdapter(
             val inflater: MenuInflater = popup.menuInflater
             inflater.inflate(R.menu.post_menu, popup.menu)
             popup.setOnMenuItemClickListener {
-                val doc_id = itemList[position].documentId.toString()
+                val docId = itemList[position].documentId.toString()
                 when (it.itemId) {
                     R.id.remove_this_post -> {
-                        FirestoreHelper().removePost(doc_id) {
+                        FirestoreHelper().removePost(docId) {
                             println("success to remove post.")
 
                             if (it == true) {
