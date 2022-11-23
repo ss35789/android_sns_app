@@ -7,12 +7,14 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class FirestoreHelper {
+    private val auth: FirebaseAuth = Firebase.auth
     private var db: FirebaseFirestore = Firebase.firestore
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val defaultProfileImg =
@@ -130,6 +132,8 @@ class FirestoreHelper {
             }
         }
     }
+
+
     fun Signout(){
         FirebaseAuth.getInstance().signOut();
     }
