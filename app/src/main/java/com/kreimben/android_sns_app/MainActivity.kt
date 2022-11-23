@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         binding.rvList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
+        binding.btnSignout.setOnClickListener {
+
+        }
         binding.myProfileTextView.text = FirebaseAuth.getInstance().currentUser?.email
         Glide.with(binding.ProfileImage.context)
             .load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(binding.ProfileImage)

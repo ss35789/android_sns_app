@@ -130,6 +130,9 @@ class FirestoreHelper {
             }
         }
     }
+    fun Signout(){
+        FirebaseAuth.getInstance().signOut();
+    }
 
     fun getDisplayName(uid: String, textView: TextView) {
         val doc = db.collection("user").document(uid)
