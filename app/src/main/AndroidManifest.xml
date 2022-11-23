@@ -15,6 +15,13 @@
         android:theme="@style/Theme.Android_sns_app"
         tools:targetApi="31">
         <activity
+            android:name=".DeleteAccount"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".EditProfileActivity"
             android:exported="false">
             <meta-data
@@ -56,6 +63,12 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+        </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:exported="true">
+
+
         </activity>
     </application>
 
