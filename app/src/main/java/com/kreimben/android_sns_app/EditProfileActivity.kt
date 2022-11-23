@@ -105,6 +105,7 @@ class EditProfileActivity : AppCompatActivity() {
         }.addOnCompleteListener {
             it.result.storage.downloadUrl.addOnCompleteListener {
                 this.imageURL = it.result.toString()
+                loadImage(this, this.imageURL.toString(), binding.imageView)
 
                 Toast.makeText(this, "이미지 업로드 완료!", Toast.LENGTH_SHORT).show()
             }
