@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -32,12 +33,14 @@ class MainActivity : AppCompatActivity() {
 
         // 프로필 업데이트함
         FirestoreHelper().updateProfile()
-
+        isEmptyFollower()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.rvList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvList.adapter = adapter
+
+
         binding.btnSignout.setOnClickListener {
             FirestoreHelper().Signout()
             startActivity(Intent(this, SigninActivity::class.java))
@@ -132,5 +135,30 @@ class MainActivity : AppCompatActivity() {
             }.addOnCompleteListener {
                 adapter.notifyDataSetChanged()  // 리사이클러 뷰 갱신
             }
+    }
+    fun isEmptyFollower(){
+        val doc = db.collection("user").document(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        doc.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                var f = it.result.data?.get("following")
+                if (f == null) {
+                    f = mutableListOf<String>()
+                }
+                if((f as MutableList<String>).isEmpty()) {
+                    startActivity(Intent(this, FriendsActivity::class.java))
+
+                    Toast.makeText(
+                        this,
+                        "팔로워가 없어서 유저 목록창으로 이동합니다.",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+
+
+                }
+            }
+        }
+
     }
 }

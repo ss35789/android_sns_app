@@ -1,10 +1,12 @@
 package com.kreimben.android_sns_app
 
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -132,6 +134,8 @@ class FirestoreHelper {
             }
         }
     }
+
+
 
 
     fun Signout(){
